@@ -1,4 +1,4 @@
-package com.njoeris.Kowoerka;
+package com.njoeris.kowoerka;
 
 import io.flutter.embedding.android.FlutterActivity;
 

@@ -1,4 +1,4 @@
-# Kowoerka
+# kowoerka
 
 An app for co-workers
 
