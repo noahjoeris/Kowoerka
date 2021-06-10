@@ -2,10 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SearchAppBar extends StatelessWidget {
+  final String heading;
+
+  const SearchAppBar({this.heading = "Kowoerka"});
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-        title: Text("Choose a Location"),
+        title: Text(heading),
         actions: [
           IconButton(
             onPressed: () {},

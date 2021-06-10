@@ -11,7 +11,7 @@ class LocationSelectorScreen extends StatelessWidget {
           CustomScrollView(
             slivers: <Widget>[
               SearchAppBar(
-                heading: "Choose a Location",
+                heading: "Choose a Workspace",
               ),
               SliverList(
                   delegate: SliverChildBuilderDelegate(

@@ -90,41 +90,6 @@ class FlipCardFront extends StatelessWidget {
   }
 }
 
-class FavouriteButton extends StatefulWidget {
-  bool status = false;
-  FavouriteButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  _FavouriteButtonState createState() => _FavouriteButtonState();
-}
-
-class _FavouriteButtonState extends State<FavouriteButton> {
-  @override
-  Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-              onPressed: () {
-                setState(() {
-                  widget.status = !widget.status;
-                });
-              },
-              icon: Icon(
-                widget.status ? Icons.favorite : Icons.favorite_border,
-                color: Colors.red,
-                size: 40,
-              ),
-            )),
-      ),
-    );
-  }
-}
-
 class FlipCardBack extends StatelessWidget {
   const FlipCardBack(
       {Key? key,
@@ -185,4 +150,39 @@ class FlipCardBack extends StatelessWidget {
       ),
     );
   }
+}
+
+class _FavouriteButtonState extends State<FavouriteButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  widget.status = !widget.status;
+                });
+              },
+              icon: Icon(
+                widget.status ? Icons.favorite : Icons.favorite_border,
+                color: Colors.red,
+                size: 40,
+              ),
+            )),
+      ),
+    );
+  }
+}
+
+class FavouriteButton extends StatefulWidget {
+  bool status = false;
+  FavouriteButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _FavouriteButtonState createState() => _FavouriteButtonState();
 }
