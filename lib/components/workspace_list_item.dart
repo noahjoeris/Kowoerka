@@ -1,7 +1,8 @@
+import 'package:day_night_time_picker/lib/constants.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flip_card/flip_card.dart';
-import 'package:kowoerka/screens/workspace_selector_screen.dart';
+import 'package:day_night_time_picker/day_night_time_picker.dart';
 
 //TODO refactor: combine listitems to reduce redundancy
 class WorkspaceListItem extends StatelessWidget {
@@ -13,7 +14,7 @@ class WorkspaceListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlipCard(
         key: cardKey,
-        direction: FlipDirection.VERTICAL,
+        direction: FlipDirection.HORIZONTAL,
         flipOnTouch: false,
         front: FlipCardFront(
           cardKey: cardKey,
@@ -80,6 +81,7 @@ class FlipCardFront extends StatelessWidget {
   }
 }
 
+//TODO create own component widget
 class FlipCardBack extends StatelessWidget {
   const FlipCardBack(
       {Key? key,
@@ -104,35 +106,36 @@ class FlipCardBack extends StatelessWidget {
           cardKey.currentState?.toggleCard();
         },
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(
-                      "This facility offers a nice working environment in a silent area.\nFeatures: Parking area, Coffee, Nature, Great View\nContact: Noah Joeris, +49123456789"),
-                ),
-                SizedBox(
-                  height: 60,
-                ),
-                Divider(
-                  indent: 10,
-                  endIndent: 10,
-                ),
-              ],
-            ),
             Padding(
-              padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              padding: EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Workspace No $workspaceNo"),
-                  Text(isBooked ? "already booked" : "free to book")
+                  Text(
+                      "This workspace has everything you need to work as productively as possible.\n\nFeatures: Height adjustable desk, Monitor(4k), Power supply, Lamp\n\nContact: Noah Joeris, +49123456789"),
+                  Divider(),
+                  Text(
+                    "Book",
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22),
+                  ),
+                  TimeRangePicker(),
                 ],
               ),
             ),
+            // Padding(
+            //   padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       Text("Workspace No $workspaceNo"),
+            //       Text(isBooked ? "already booked" : "free to book")
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -161,6 +164,70 @@ class _FavouriteButtonState extends State<FavouriteButton> {
               ),
             )),
       ),
+    );
+  }
+}
+
+class TimeRangePicker extends StatefulWidget {
+  @override
+  _TimeRangePickerState createState() => _TimeRangePickerState();
+}
+
+class _TimeRangePickerState extends State<TimeRangePicker> {
+  TimeOfDay _startTime = TimeOfDay.now();
+  TimeOfDay _endTime = TimeOfDay.now();
+  bool iosStyle = true;
+
+  void onStartTimeChanged(TimeOfDay newTime) {
+    setState(() {
+      _startTime = newTime;
+    });
+  }
+
+  void onEndTimeChanged(TimeOfDay newTime) {
+    setState(() {
+      _endTime = newTime;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              showPicker(
+                context: context,
+                value: _startTime,
+                onChange: onStartTimeChanged,
+                disableHour: false,
+                disableMinute: false,
+                is24HrFormat: true,
+                minuteInterval: MinuteInterval.ONE,
+              ),
+            );
+          },
+          child: Text("Start Time: ${_startTime.hour}:${_startTime.minute}"),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              showPicker(
+                context: context,
+                value: _endTime,
+                onChange: onEndTimeChanged,
+                disableHour: false,
+                disableMinute: false,
+                is24HrFormat: true,
+                minuteInterval: MinuteInterval.ONE,
+              ),
+            );
+          },
+          child: Text("End Time: ${_endTime.hour}:${_endTime.minute}"),
+        ),
+      ],
     );
   }
 }
