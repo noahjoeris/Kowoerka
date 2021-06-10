@@ -58,23 +58,7 @@ class FlipCardFront extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(children: [
-              Positioned.fill(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Random().nextBool()
-                              ? Icons.favorite_border
-                              : Icons.favorite,
-                          color: Colors.red,
-                          size: 40,
-                        ),
-                      )),
-                ),
-              ),
+              FavouriteButton(),
               Ink.image(
                 height: 150,
                 fit: BoxFit.fitWidth,
@@ -94,6 +78,41 @@ class FlipCardFront extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class FavouriteButton extends StatefulWidget {
+  bool status = false;
+  FavouriteButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _FavouriteButtonState createState() => _FavouriteButtonState();
+}
+
+class _FavouriteButtonState extends State<FavouriteButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  widget.status = !widget.status;
+                });
+              },
+              icon: Icon(
+                widget.status ? Icons.favorite : Icons.favorite_border,
+                color: Colors.red,
+                size: 40,
+              ),
+            )),
       ),
     );
   }

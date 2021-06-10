@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SearchAppBar extends StatelessWidget {
@@ -5,6 +6,15 @@ class SearchAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
         title: Text("Choose a Location"),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.search,
+            ),
+            // iconSize: 26.0,
+          )
+        ],
         floating: true,
         pinned: false,
         snap: false,
@@ -17,19 +27,17 @@ class SearchAppBar extends StatelessWidget {
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(30),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(5.0, 0, 5, 0),
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                // TextField(),
                 FilterChip(
                   label: Text('Popular'),
                   onSelected: (event) {},
                   selected: false,
                   elevation: 5,
                 ),
-                SizedBox(
-                  width: 20,
-                ),
+                SizedBox(width: 15),
                 FilterChip(
                   label: Text('Favorites'),
                   onSelected: (event) {},
