@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 class SearchAppBar extends StatelessWidget {
   final String heading;
+  final bool backButtonEnabled;
 
-  const SearchAppBar({this.heading = "Kowoerka"});
+  const SearchAppBar(
+      {this.heading = "Kowoerka", this.backButtonEnabled = true});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +27,10 @@ class SearchAppBar extends StatelessWidget {
         elevation: 5,
         expandedHeight: 100,
         leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () {},
+          icon: Icon(backButtonEnabled ? Icons.arrow_back : Icons.menu),
+          onPressed: () {
+            if (backButtonEnabled) Navigator.pop(context);
+          },
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(30),

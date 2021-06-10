@@ -12,6 +12,7 @@ class LocationSelectorScreen extends StatelessWidget {
             slivers: <Widget>[
               SearchAppBar(
                 heading: "Choose a Location",
+                backButtonEnabled: false,
               ),
               SliverList(
                   delegate: SliverChildBuilderDelegate(

@@ -3,29 +3,27 @@ import 'dart:math';
 import 'package:flip_card/flip_card.dart';
 import 'package:kowoerka/screens/workspace_selector_screen.dart';
 
-class LocationListItem extends StatelessWidget {
+//TODO refactor: combine listitems to reduce redundancy
+class WorkspaceListItem extends StatelessWidget {
   final GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
-  final int overallSpaces = Random().nextInt(30) + 30;
-  final int leftSpaces = Random().nextInt(30);
-  final int streetNumber = Random().nextInt(100);
+  final bool isBooked = Random().nextBool();
+  final int workspaceNo = Random().nextInt(100);
 
   @override
   Widget build(BuildContext context) {
     return FlipCard(
         key: cardKey,
-        direction: FlipDirection.HORIZONTAL,
+        direction: FlipDirection.VERTICAL,
         flipOnTouch: false,
         front: FlipCardFront(
           cardKey: cardKey,
-          overallSpaces: overallSpaces,
-          leftSpaces: leftSpaces,
-          streetNumber: streetNumber,
+          isBooked: isBooked,
+          workspaceNo: workspaceNo,
         ),
         back: FlipCardBack(
           cardKey: cardKey,
-          overallSpaces: overallSpaces,
-          leftSpaces: leftSpaces,
-          streetNumber: streetNumber,
+          isBooked: isBooked,
+          workspaceNo: workspaceNo,
         ));
   }
 }
@@ -34,15 +32,13 @@ class FlipCardFront extends StatelessWidget {
   const FlipCardFront(
       {Key? key,
       required this.cardKey,
-      required this.overallSpaces,
-      required this.leftSpaces,
-      required this.streetNumber})
+      required this.isBooked,
+      required this.workspaceNo})
       : super(key: key);
 
   final GlobalKey<FlipCardState> cardKey;
-  final int overallSpaces;
-  final int leftSpaces;
-  final int streetNumber;
+  final bool isBooked;
+  final int workspaceNo;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -52,10 +48,7 @@ class FlipCardFront extends StatelessWidget {
       margin: EdgeInsets.all(10),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => WorkspaceSelectorScreen()));
+          cardKey.currentState?.toggleCard();
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -67,25 +60,16 @@ class FlipCardFront extends StatelessWidget {
                 height: 150,
                 fit: BoxFit.fitWidth,
                 image: AssetImage(
-                    "assets/images/location${Random().nextInt(4) + 1}.jpg"),
+                    "assets/images/workspace${Random().nextInt(5) + 1}.jpg"),
               ),
             ]),
             Padding(
-              padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
-              child: Column(
+              padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Street $streetNumber, 64293 Darmstadt"),
-                      Text("$leftSpaces/$overallSpaces left")
-                    ],
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        cardKey.currentState?.toggleCard();
-                      },
-                      child: Text("Details"))
+                  Text("Workspace No $workspaceNo"),
+                  Text(isBooked ? "already booked" : "free to book")
                 ],
               ),
             ),
@@ -100,15 +84,13 @@ class FlipCardBack extends StatelessWidget {
   const FlipCardBack(
       {Key? key,
       required this.cardKey,
-      required this.overallSpaces,
-      required this.leftSpaces,
-      required this.streetNumber})
+      required this.isBooked,
+      required this.workspaceNo})
       : super(key: key);
 
   final GlobalKey<FlipCardState> cardKey;
-  final int overallSpaces;
-  final int leftSpaces;
-  final int streetNumber;
+  final bool isBooked;
+  final int workspaceNo;
 
   @override
   Widget build(BuildContext context) {
@@ -146,8 +128,8 @@ class FlipCardBack extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Street $streetNumber, 64293 Darmstadt"),
-                  Text("$leftSpaces/$overallSpaces left")
+                  Text("Workspace No $workspaceNo"),
+                  Text(isBooked ? "already booked" : "free to book")
                 ],
               ),
             ),
