@@ -50,9 +50,7 @@ class FlipCardFront extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       margin: EdgeInsets.all(10),
       child: InkWell(
-        onTap: () {
-          cardKey.currentState?.toggleCard();
-        },
+        onTap: () {},
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,12 +65,21 @@ class FlipCardFront extends StatelessWidget {
               ),
             ]),
             Padding(
-              padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
+              child: Column(
                 children: [
-                  Text("Street $streetNumber, 64293 Darmstadt"),
-                  Text("$leftSpaces/$overallSpaces left")
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Street $streetNumber, 64293 Darmstadt"),
+                      Text("$leftSpaces/$overallSpaces left")
+                    ],
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        cardKey.currentState?.toggleCard();
+                      },
+                      child: Text("Details"))
                 ],
               ),
             ),
@@ -149,8 +156,13 @@ class FlipCardBack extends StatelessWidget {
           children: [
             Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                      "This facility offers a nice working environment in a silent area.\nFeatures: Parking area, Coffee, Nature, Great View\nContact: Noah Joeris, +49123456789"),
+                ),
                 SizedBox(
-                  height: 130,
+                  height: 60,
                 ),
                 Divider(
                   indent: 10,
