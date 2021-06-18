@@ -64,7 +64,7 @@ class FlipCardFront extends StatelessWidget {
             Stack(children: [
               FavouriteButton(),
               Ink.image(
-                height: 150,
+                height: 190,
                 fit: BoxFit.fitWidth,
                 image: AssetImage(
                     "assets/images/location${Random().nextInt(4) + 1}.jpg"),
@@ -133,7 +133,7 @@ class FlipCardBack extends StatelessWidget {
                       "This facility offers a nice working environment in a silent area.\nFeatures: Parking area, Coffee, Nature, Great View\nContact: Noah Joeris, +49123456789"),
                 ),
                 SizedBox(
-                  height: 60,
+                  height: 100,
                 ),
                 Divider(
                   indent: 10,

@@ -58,7 +58,7 @@ class FlipCardFront extends StatelessWidget {
             Stack(children: [
               FavouriteButton(),
               Ink.image(
-                height: 150,
+                height: 190,
                 fit: BoxFit.fitWidth,
                 image: AssetImage(
                     "assets/images/workspace${Random().nextInt(5) + 1}.jpg"),
@@ -110,19 +110,26 @@ class FlipCardBack extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(12),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      "This workspace has everything you need to work as productively as possible.\n\nFeatures: Height adjustable desk, Monitor(4k), Power supply, Lamp\n\nContact: Noah Joeris, +49123456789"),
+                      "This workspace has everything you need to work as productively as possible.\n\nFeatures: Height adjustable desk, Monitor(4k), Power supply, Lamp)"),
                   Divider(),
-                  Text(
-                    "Book",
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Book",
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22),
+                      ),
+                      Text("1,59€ per hour"),
+                    ],
                   ),
                   TimeRangePicker(),
+                  ElevatedButton(
+                      onPressed: () {}, child: Text("Add to Reservation List")),
                 ],
               ),
             ),
@@ -168,6 +175,7 @@ class _FavouriteButtonState extends State<FavouriteButton> {
   }
 }
 
+//TODO refactor
 class TimeRangePicker extends StatefulWidget {
   @override
   _TimeRangePickerState createState() => _TimeRangePickerState();
