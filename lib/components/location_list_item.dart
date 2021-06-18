@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flip_card/flip_card.dart';
+import 'package:kowoerka/model/location.dart';
 import 'package:kowoerka/screens/workspace_selector_screen.dart';
 
 class LocationListItem extends StatelessWidget {
   final GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
-  final int overallSpaces = Random().nextInt(30) + 30;
-  final int leftSpaces = Random().nextInt(30);
-  final int streetNumber = Random().nextInt(100);
+  final Location _location;
+
+  LocationListItem(this._location);
 
   @override
   Widget build(BuildContext context) {
@@ -17,32 +18,25 @@ class LocationListItem extends StatelessWidget {
         flipOnTouch: false,
         front: FlipCardFront(
           cardKey: cardKey,
-          overallSpaces: overallSpaces,
-          leftSpaces: leftSpaces,
-          streetNumber: streetNumber,
+          location: _location,
         ),
         back: FlipCardBack(
           cardKey: cardKey,
-          overallSpaces: overallSpaces,
-          leftSpaces: leftSpaces,
-          streetNumber: streetNumber,
+          location: _location,
         ));
   }
 }
 
 class FlipCardFront extends StatelessWidget {
-  const FlipCardFront(
-      {Key? key,
-      required this.cardKey,
-      required this.overallSpaces,
-      required this.leftSpaces,
-      required this.streetNumber})
-      : super(key: key);
+  const FlipCardFront({
+    Key? key,
+    required this.cardKey,
+    required this.location,
+  }) : super(key: key);
 
   final GlobalKey<FlipCardState> cardKey;
-  final int overallSpaces;
-  final int leftSpaces;
-  final int streetNumber;
+  final Location location;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -67,7 +61,7 @@ class FlipCardFront extends StatelessWidget {
                 height: 190,
                 fit: BoxFit.fitWidth,
                 image: AssetImage(
-                    "assets/images/location${Random().nextInt(4) + 1}.jpg"),
+                    "assets/images/location${location.imageNumber}.jpg"),
               ),
             ]),
             Padding(
@@ -77,8 +71,9 @@ class FlipCardFront extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Street $streetNumber, 64293 Darmstadt"),
-                      Text("$leftSpaces/$overallSpaces left")
+                      Text(
+                          "${location.street} ${location.houseNumber}, ${location.postalCode} ${location.city}"),
+                      Text("${location.workspaces.length} seats")
                     ],
                   ),
                   TextButton(
@@ -97,18 +92,11 @@ class FlipCardFront extends StatelessWidget {
 }
 
 class FlipCardBack extends StatelessWidget {
-  const FlipCardBack(
-      {Key? key,
-      required this.cardKey,
-      required this.overallSpaces,
-      required this.leftSpaces,
-      required this.streetNumber})
+  const FlipCardBack({Key? key, required this.cardKey, required this.location})
       : super(key: key);
 
   final GlobalKey<FlipCardState> cardKey;
-  final int overallSpaces;
-  final int leftSpaces;
-  final int streetNumber;
+  final Location location;
 
   @override
   Widget build(BuildContext context) {
@@ -130,10 +118,10 @@ class FlipCardBack extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Text(
-                      "This facility offers a nice working environment in a silent area.\nFeatures: Parking area, Coffee, Nature, Great View\nContact: Noah Joeris, +49123456789"),
+                      "${location.description}.\n\nFeatures: ${location.features.toString()}\n\nContact: ${location.realEstateAgent.name}, ${location.realEstateAgent.mobilephoneNumber}"),
                 ),
                 SizedBox(
-                  height: 100,
+                  height: 70,
                 ),
                 Divider(
                   indent: 10,
@@ -146,8 +134,10 @@ class FlipCardBack extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Street $streetNumber, 64293 Darmstadt"),
-                  Text("$leftSpaces/$overallSpaces left")
+                  Text(
+                    "${location.street} ${location.houseNumber}, ${location.postalCode} ${location.city}",
+                  ),
+                  Text("${location.workspaces.length} seats")
                 ],
               ),
             ),

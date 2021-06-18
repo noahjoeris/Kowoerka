@@ -19,5 +19,5 @@ void setupLocator() {
   locator.registerLazySingleton<LocationRepository>(() =>
       LocationRepository(generateFakeLocationsWithWorkspaces(agents: users)));
   locator.registerLazySingleton<ReservationRepository>(
-      () => ReservationRepository(List<Reservation>.empty()));
+      () => ReservationRepository(List<Reservation>.empty(growable: true)));
 }
