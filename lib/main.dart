@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kowoerka/screens/location_selector_screen.dart';
 import 'package:kowoerka/screens/workspace_selector_screen.dart';
+import 'package:kowoerka/services/locator.dart';
 
 void main() {
+  setupLocator();
   runApp(MyApp());
 }
 

@@ -7,7 +7,7 @@ import 'package:kowoerka/model/workspace.dart';
 
 List<Location> generateFakeLocationsWithWorkspaces(
     {int size = 100, required List<User> agents}) {
-  List<Location> locations = List.empty();
+  List<Location> locations = List.empty(growable: true);
 
   for (int i = 0; i < size; i++) {
     locations.add(Location(
@@ -28,22 +28,22 @@ List<Location> generateFakeLocationsWithWorkspaces(
 }
 
 List<User> generateFakeUsers({int size = 10}) {
-  List<User> users = List.empty();
+  List<User> users = List.empty(growable: true);
 
   for (int i = 0; i < size; i++) {
     users.add(User(
         id: i,
         mobilephoneNumber: faker.phoneNumber.us(),
         name: faker.person.name(),
-        favouriteLocations: List.empty(),
-        favouriteWorkspaces: List.empty()));
+        favouriteLocations: List<Location>.empty(),
+        favouriteWorkspaces: List<Workspace>.empty()));
   }
   return users;
 }
 
 List<Workspace> generateFakeWorkspaces({int maxSizePerLocation = 30}) {
   int realSize = Random().nextInt(maxSizePerLocation) + 5;
-  List<Workspace> workspaces = List.empty();
+  List<Workspace> workspaces = List.empty(growable: true);
 
   for (int i = 0; i < realSize; i++) {
     workspaces.add(Workspace(
