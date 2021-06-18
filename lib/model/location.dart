@@ -1,26 +1,29 @@
-import 'package:kowoerka/model/real_estate_agent.dart';
+import 'package:kowoerka/model/user.dart';
+import 'package:kowoerka/model/workspace.dart';
 
 class Location {
-  int id;
+  String id;
   String street;
   String houseNumber;
-  int postalCode;
+  String postalCode;
   String city;
-  RealEstateAgent realEstateAgent;
+  User realEstateAgent;
   String description;
   List<String> features;
   int popularityScrore;
-  //maybe safe isFavorited too? -> would force single user usage but safe a lot of work
+  int imageNumber;
+  List<Workspace> workspaces;
 
-  Location({
-    required this.id,
-    required this.street,
-    required this.houseNumber,
-    required this.postalCode,
-    required this.city,
-    required this.realEstateAgent,
-    required this.description,
-    required this.features,
-    required this.popularityScrore,
-  });
+  Location(
+      {required this.id,
+      required this.street,
+      required this.houseNumber,
+      required this.postalCode,
+      required this.city,
+      required this.realEstateAgent,
+      required this.description,
+      required this.features,
+      required this.popularityScrore,
+      required this.imageNumber,
+      required this.workspaces});
 }

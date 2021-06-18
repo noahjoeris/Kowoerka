@@ -1,0 +1,58 @@
+import 'dart:math';
+
+import 'package:kowoerka/model/location.dart';
+import 'package:faker/faker.dart';
+import 'package:kowoerka/model/user.dart';
+import 'package:kowoerka/model/workspace.dart';
+
+List<Location> generateFakeLocationsWithWorkspaces(
+    {int size = 100, required List<User> agents}) {
+  List<Location> locations = List.empty();
+
+  for (int i = 0; i < size; i++) {
+    locations.add(Location(
+      id: faker.guid.guid(),
+      city: faker.address.city(),
+      postalCode: faker.address.zipCode(),
+      street: faker.address.streetName(),
+      houseNumber: faker.address.buildingNumber(),
+      popularityScrore: Random().nextInt(100),
+      description: faker.lorem.sentence(),
+      realEstateAgent: agents[Random().nextInt(agents.length)],
+      features: ["Parking", "Pool", "Awesome View", "Coffee", "Silent"],
+      imageNumber: Random().nextInt(4) + 1,
+      workspaces: generateFakeWorkspaces(),
+    ));
+  }
+  return locations;
+}
+
+List<User> generateFakeUsers({int size = 10}) {
+  List<User> users = List.empty();
+
+  for (int i = 0; i < size; i++) {
+    users.add(User(
+        id: i,
+        mobilephoneNumber: faker.phoneNumber.us(),
+        name: faker.person.name(),
+        favouriteLocations: List.empty(),
+        favouriteWorkspaces: List.empty()));
+  }
+  return users;
+}
+
+List<Workspace> generateFakeWorkspaces({int maxSizePerLocation = 30}) {
+  int realSize = Random().nextInt(maxSizePerLocation) + 5;
+  List<Workspace> workspaces = List.empty();
+
+  for (int i = 0; i < realSize; i++) {
+    workspaces.add(Workspace(
+        id: faker.guid.guid(),
+        description: faker.lorem.sentence(),
+        features: List.of(
+            ["Height adjustable desk", "Monitor(4k)", "Power supply", "Lamp"]),
+        pricePerHour: (Random().nextDouble() * 10) + 1,
+        imageNumber: Random().nextInt(5) + 1));
+  }
+  return workspaces;
+}
