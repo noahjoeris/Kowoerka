@@ -5,6 +5,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:kowoerka/model/reservation.dart';
 import 'package:kowoerka/model/reservation_repository.dart';
+import 'package:kowoerka/model/reservation_repository.dart';
 import 'package:kowoerka/model/workspace.dart';
 import 'package:kowoerka/services/locator.dart';
 
@@ -49,12 +50,12 @@ class WorkspaceListItem extends StatelessWidget {
 }
 
 class FlipCardFront extends StatelessWidget {
-  const FlipCardFront(
-      {Key? key, required this.cardKey, required this.workspace})
+  FlipCardFront({Key? key, required this.cardKey, required this.workspace})
       : super(key: key);
 
   final GlobalKey<FlipCardState> cardKey;
   final Workspace workspace;
+  ReservationRepository reservationRepo = locator<ReservationRepository>();
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +84,15 @@ class FlipCardFront extends StatelessWidget {
             Padding(
               padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("${workspace.pricePerHour.toStringAsFixed(2)}€ per hour")
+                  Text(
+                      "${workspace.pricePerHour.toStringAsFixed(2)}€ per hour"),
+                  Text(reservationRepo
+                              .getCurrentWorkspaceReservation(workspace.id) !=
+                          null
+                      ? "currently booked"
+                      : "free to book"),
                 ],
               ),
             ),
