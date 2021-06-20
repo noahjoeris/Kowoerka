@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kowoerka/model/user.dart';
 
 class Reservation {
+  String id;
   String workspaceID;
   User user;
   DateTime dateTimeStart;
@@ -10,7 +11,8 @@ class Reservation {
   double pricePerHour;
 
   Reservation(
-      {required this.workspaceID,
+      {required this.id,
+      required this.workspaceID,
       required this.user,
       required this.dateTimeStart,
       required this.dateTimeEnd,
