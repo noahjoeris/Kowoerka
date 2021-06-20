@@ -3,12 +3,33 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flip_card/flip_card.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
+import 'package:kowoerka/model/reservation.dart';
+import 'package:kowoerka/model/reservation_repository.dart';
+import 'package:kowoerka/model/workspace.dart';
+import 'package:kowoerka/services/locator.dart';
 
 //TODO refactor: combine listitems to reduce redundancy
 class WorkspaceListItem extends StatelessWidget {
   final GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
-  final bool isBooked = Random().nextBool();
-  final int workspaceNo = Random().nextInt(100);
+  final Workspace _workspace;
+
+  WorkspaceListItem(this._workspace);
+
+  // late String isBookedMessage = createIsBookedMessage();
+  //
+  // String createIsBookedMessage() {
+  //   List<Reservation> res = locator<ReservationRepository>().reservations;
+  //   if (!res.any((element) => element.workspaceID == _workspace.id)) {
+  //     return "free to book";
+  //   }
+  //
+  //   if (res.any((element) =>
+  //       element.workspaceID == _workspace.id &&
+  //       element.dateTimeStart.isAfter(DateTime.now()))) {
+  //     return "upcoming reservations";
+  //   }
+  //   return "UNDEFINED";
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -18,28 +39,23 @@ class WorkspaceListItem extends StatelessWidget {
         flipOnTouch: false,
         front: FlipCardFront(
           cardKey: cardKey,
-          isBooked: isBooked,
-          workspaceNo: workspaceNo,
+          workspace: _workspace,
         ),
         back: FlipCardBack(
           cardKey: cardKey,
-          isBooked: isBooked,
-          workspaceNo: workspaceNo,
+          workspace: _workspace,
         ));
   }
 }
 
 class FlipCardFront extends StatelessWidget {
   const FlipCardFront(
-      {Key? key,
-      required this.cardKey,
-      required this.isBooked,
-      required this.workspaceNo})
+      {Key? key, required this.cardKey, required this.workspace})
       : super(key: key);
 
   final GlobalKey<FlipCardState> cardKey;
-  final bool isBooked;
-  final int workspaceNo;
+  final Workspace workspace;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -61,16 +77,15 @@ class FlipCardFront extends StatelessWidget {
                 height: 190,
                 fit: BoxFit.fitWidth,
                 image: AssetImage(
-                    "assets/images/workspace${Random().nextInt(5) + 1}.jpg"),
+                    "assets/images/workspace${workspace.imageNumber}.jpg"),
               ),
             ]),
             Padding(
               padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text("Workspace No $workspaceNo"),
-                  Text(isBooked ? "already booked" : "free to book")
+                  Text("${workspace.pricePerHour.toStringAsFixed(2)}€ per hour")
                 ],
               ),
             ),
@@ -83,16 +98,14 @@ class FlipCardFront extends StatelessWidget {
 
 //TODO create own component widget
 class FlipCardBack extends StatelessWidget {
-  const FlipCardBack(
-      {Key? key,
-      required this.cardKey,
-      required this.isBooked,
-      required this.workspaceNo})
-      : super(key: key);
+  const FlipCardBack({
+    Key? key,
+    required this.cardKey,
+    required this.workspace,
+  }) : super(key: key);
 
   final GlobalKey<FlipCardState> cardKey;
-  final bool isBooked;
-  final int workspaceNo;
+  final Workspace workspace;
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +125,7 @@ class FlipCardBack extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                      "This workspace has everything you need to work as productively as possible.\n\nFeatures: Height adjustable desk, Monitor(4k), Power supply, Lamp)"),
+                      "${workspace.description}\n\nFeatures: ${workspace.features}"),
                   Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,7 +137,8 @@ class FlipCardBack extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             fontSize: 22),
                       ),
-                      Text("1,59€ per hour"),
+                      Text(
+                          "${workspace.pricePerHour.toStringAsFixed(2)}€ per hour"),
                     ],
                   ),
                   TimeRangePicker(),
@@ -242,6 +256,7 @@ class _TimeRangePickerState extends State<TimeRangePicker> {
 
 class FavouriteButton extends StatefulWidget {
   bool status = false;
+
   FavouriteButton({
     Key? key,
   }) : super(key: key);

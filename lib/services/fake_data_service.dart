@@ -17,7 +17,7 @@ List<Location> generateFakeLocationsWithWorkspaces(
       street: faker.address.streetSuffix(),
       houseNumber: (Random().nextInt(200) + 1).toString(),
       popularityScrore: Random().nextInt(100),
-      description: faker.lorem.sentence(),
+      description: "This building ",
       realEstateAgent: agents[Random().nextInt(agents.length)],
       features: ["Parking", "Pool", "Awesome View", "Coffee", "Silent"],
       imageNumber: Random().nextInt(4) + 1,
@@ -48,10 +48,11 @@ List<Workspace> generateFakeWorkspaces({int maxSizePerLocation = 30}) {
   for (int i = 0; i < realSize; i++) {
     workspaces.add(Workspace(
         id: faker.guid.guid(),
-        description: faker.lorem.sentence(),
+        description:
+            "This workspace has everything you need to work as productively as possible.",
         features: List.of(
             ["Height adjustable desk", "Monitor(4k)", "Power supply", "Lamp"]),
-        pricePerHour: (Random().nextDouble() * 10) + 1,
+        pricePerHour: ((Random().nextDouble() * 100) + 1).roundToDouble() / 10,
         imageNumber: Random().nextInt(5) + 1));
   }
   return workspaces;

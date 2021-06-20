@@ -3,8 +3,13 @@ import 'package:kowoerka/components/location_list_item.dart';
 import 'package:kowoerka/components/search_app_bar.dart';
 import 'package:kowoerka/components/workspace_list_item.dart';
 import 'package:badges/badges.dart';
+import 'package:kowoerka/model/workspace.dart';
 
 class WorkspaceSelectorScreen extends StatelessWidget {
+  final List<Workspace> _workspaces;
+
+  WorkspaceSelectorScreen(this._workspaces);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,8 +22,8 @@ class WorkspaceSelectorScreen extends StatelessWidget {
               ),
               SliverList(
                   delegate: SliverChildBuilderDelegate(
-                (context, index) => WorkspaceListItem(),
-                childCount: 1000,
+                (context, index) => WorkspaceListItem(_workspaces[index]),
+                childCount: _workspaces.length,
               )),
             ],
           ),
