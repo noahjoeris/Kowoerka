@@ -12,15 +12,6 @@ class SearchAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
         title: Text(heading),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.search,
-            ),
-            // iconSize: 26.0,
-          )
-        ],
         floating: true,
         pinned: false,
         snap: false,

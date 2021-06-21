@@ -251,12 +251,14 @@ class _BookingAreaState extends State<BookingArea> {
 
     // add delay for test purposes
     Timer(Duration(seconds: 1), () {
-      locator<ReservationRepository>().isAvailable(r)
-          ? _btnController.success()
-          : _btnController.error();
+      if (locator<ReservationRepository>().isAvailable(r)) {
+        locator<ReservationRepository>().reservations.add(r);
+        _btnController.success();
+      } else
+        _btnController.error();
     });
     //reset result
-    Timer(Duration(seconds: 2), () {
+    Timer(Duration(seconds: 3), () {
       _btnController.reset();
     });
   }
