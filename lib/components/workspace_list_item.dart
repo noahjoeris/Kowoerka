@@ -148,9 +148,17 @@ class FlipCardBack extends StatelessWidget {
                           "${workspace.pricePerHour.toStringAsFixed(2)}€ per hour"),
                     ],
                   ),
-                  TimeRangePicker(),
-                  ElevatedButton(
-                      onPressed: () {}, child: Text("Add to Reservation List")),
+                  MyPickers(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton(
+                          onPressed: () {}, child: Text("See Reservations")),
+                      ElevatedButton(
+                          onPressed: () {},
+                          child: Text("Add to Reservation List")),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -197,15 +205,17 @@ class _FavouriteButtonState extends State<FavouriteButton> {
 }
 
 //TODO refactor
-class TimeRangePicker extends StatefulWidget {
+class MyPickers extends StatefulWidget {
   @override
-  _TimeRangePickerState createState() => _TimeRangePickerState();
+  _MyPickersState createState() => _MyPickersState();
 }
 
-class _TimeRangePickerState extends State<TimeRangePicker> {
+class _MyPickersState extends State<MyPickers> {
   TimeOfDay _startTime = TimeOfDay.now();
   TimeOfDay _endTime = TimeOfDay.now();
-  bool iosStyle = true;
+  DateTimeRange? dateRange;
+
+  bool iosStyle = false;
 
   void onStartTimeChanged(TimeOfDay newTime) {
     setState(() {
@@ -221,40 +231,60 @@ class _TimeRangePickerState extends State<TimeRangePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Column(
       children: [
         TextButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              showPicker(
-                context: context,
-                value: _startTime,
-                onChange: onStartTimeChanged,
-                disableHour: false,
-                disableMinute: false,
-                is24HrFormat: true,
-                minuteInterval: MinuteInterval.ONE,
-              ),
-            );
-          },
-          child: Text("Start Time: ${_startTime.hour}:${_startTime.minute}"),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              showPicker(
-                context: context,
-                value: _endTime,
-                onChange: onEndTimeChanged,
-                disableHour: false,
-                disableMinute: false,
-                is24HrFormat: true,
-                minuteInterval: MinuteInterval.ONE,
-              ),
-            );
-          },
-          child: Text("End Time: ${_endTime.hour}:${_endTime.minute}"),
+            onPressed: () async {
+              final DateTimeRange? result = await showDateRangePicker(
+                  context: context,
+                  initialDateRange: dateRange,
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.now().add(Duration(days: 365)));
+              setState(() {
+                dateRange = result;
+              });
+              print("CALLLL2");
+            },
+            child: Text(dateRange != null
+                ? "${dateRange?.start.day}.${dateRange?.start.month}.${dateRange?.start.year} - ${dateRange?.end.day}.${dateRange?.end.month}.${dateRange?.end.year}"
+                : "Select a date")),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  showPicker(
+                    context: context,
+                    value: _startTime,
+                    onChange: onStartTimeChanged,
+                    disableHour: false,
+                    disableMinute: false,
+                    is24HrFormat: true,
+                    minuteInterval: MinuteInterval.FIVE,
+                  ),
+                );
+              },
+              child:
+                  Text("Start Time: ${_startTime.hour}:${_startTime.minute}"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  showPicker(
+                    context: context,
+                    value: _endTime,
+                    onChange: onEndTimeChanged,
+                    disableHour: false,
+                    disableMinute: false,
+                    is24HrFormat: true,
+                    minuteInterval: MinuteInterval.FIVE,
+                  ),
+                );
+              },
+              child: Text("End Time: ${_endTime.hour}:${_endTime.minute}"),
+            ),
+          ],
         ),
       ],
     );
