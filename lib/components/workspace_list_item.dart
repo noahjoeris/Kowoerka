@@ -55,7 +55,8 @@ class FlipCardFront extends StatelessWidget {
 
   final GlobalKey<FlipCardState> cardKey;
   final Workspace workspace;
-  ReservationRepository reservationRepo = locator<ReservationRepository>();
+  final ReservationRepository reservationRepo =
+      locator<ReservationRepository>();
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +76,7 @@ class FlipCardFront extends StatelessWidget {
             Stack(children: [
               FavouriteButton(),
               Ink.image(
-                height: 190,
+                height: 230,
                 fit: BoxFit.fitWidth,
                 image: AssetImage(
                     "assets/images/workspace${workspace.imageNumber}.jpg"),
