@@ -25,4 +25,19 @@ class ReservationRepository {
     }
     return null;
   }
+
+  ///check for collisions
+  bool isAvailable(Reservation r) {
+    // returns true if collision exists
+    return _reservations.every((repoElement) {
+      if (r.workspaceID == repoElement.workspaceID) {
+        if ((repoElement.dateTimeStart.isAfter(r.dateTimeStart) &&
+                repoElement.dateTimeStart.isAfter(r.dateTimeEnd)) ||
+            (repoElement.dateTimeStart.isBefore(r.dateTimeStart) &&
+                repoElement.dateTimeStart.isBefore(r.dateTimeEnd))) return true;
+        return false;
+      }
+      return true;
+    });
+  }
 }
