@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:day_night_time_picker/lib/constants.dart';
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flip_card/flip_card.dart';
@@ -6,8 +9,10 @@ import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:kowoerka/model/reservation.dart';
 import 'package:kowoerka/model/reservation_repository.dart';
 import 'package:kowoerka/model/reservation_repository.dart';
+import 'package:kowoerka/model/user_repository.dart';
 import 'package:kowoerka/model/workspace.dart';
 import 'package:kowoerka/services/locator.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 //TODO refactor: combine listitems to reduce redundancy
 class WorkspaceListItem extends StatelessWidget {
@@ -149,17 +154,7 @@ class FlipCardBack extends StatelessWidget {
                           "${workspace.pricePerHour.toStringAsFixed(2)}€ per hour"),
                     ],
                   ),
-                  MyPickers(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TextButton(
-                          onPressed: () {}, child: Text("See Reservations")),
-                      ElevatedButton(
-                          onPressed: () {},
-                          child: Text("Add to Reservation List")),
-                    ],
-                  ),
+                  BookingArea(workspace),
                 ],
               ),
             ),
@@ -206,15 +201,20 @@ class _FavouriteButtonState extends State<FavouriteButton> {
 }
 
 //TODO refactor
-class MyPickers extends StatefulWidget {
+class BookingArea extends StatefulWidget {
   @override
-  _MyPickersState createState() => _MyPickersState();
+  _BookingAreaState createState() => _BookingAreaState();
+  final Workspace _workspace;
+
+  BookingArea(this._workspace);
 }
 
-class _MyPickersState extends State<MyPickers> {
+class _BookingAreaState extends State<BookingArea> {
+  final RoundedLoadingButtonController _btnController =
+      RoundedLoadingButtonController();
   TimeOfDay _startTime = TimeOfDay.now();
   TimeOfDay _endTime = TimeOfDay.now();
-  DateTimeRange? dateRange;
+  DateTimeRange? _dateRange;
 
   bool iosStyle = false;
 
@@ -230,6 +230,37 @@ class _MyPickersState extends State<MyPickers> {
     });
   }
 
+  void addToReservationsClicked() async {
+    bool isAvailable = false;
+    if (_dateRange == null) {
+      _btnController.error();
+      Timer(Duration(seconds: 2), () {
+        _btnController.reset();
+      });
+      return;
+    }
+    var r = Reservation(
+        id: faker.guid.guid(),
+        dateTimeStart: DateTime(_dateRange!.start.year, _dateRange!.start.month,
+            _dateRange!.start.day, _startTime.hour, _startTime.minute),
+        dateTimeEnd: DateTime(_dateRange!.end.year, _dateRange!.end.month,
+            _dateRange!.end.day, _endTime.hour, _endTime.minute),
+        pricePerHour: widget._workspace.pricePerHour,
+        workspaceID: widget._workspace.id,
+        user: locator<UserRepository>().getLoggedInUser());
+
+    // add delay for test purposes
+    Timer(Duration(seconds: 1), () {
+      locator<ReservationRepository>().isAvailable(r)
+          ? _btnController.success()
+          : _btnController.error();
+    });
+    //reset result
+    Timer(Duration(seconds: 2), () {
+      _btnController.reset();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -238,16 +269,15 @@ class _MyPickersState extends State<MyPickers> {
             onPressed: () async {
               final DateTimeRange? result = await showDateRangePicker(
                   context: context,
-                  initialDateRange: dateRange,
+                  initialDateRange: _dateRange,
                   firstDate: DateTime.now(),
                   lastDate: DateTime.now().add(Duration(days: 365)));
               setState(() {
-                dateRange = result;
+                _dateRange = result;
               });
-              print("CALLLL2");
             },
-            child: Text(dateRange != null
-                ? "${dateRange?.start.day}.${dateRange?.start.month}.${dateRange?.start.year} - ${dateRange?.end.day}.${dateRange?.end.month}.${dateRange?.end.year}"
+            child: Text(_dateRange != null
+                ? "${_dateRange?.start.day}.${_dateRange?.start.month}.${_dateRange?.start.year} - ${_dateRange?.end.day}.${_dateRange?.end.month}.${_dateRange?.end.year}"
                 : "Select a date")),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -284,6 +314,25 @@ class _MyPickersState extends State<MyPickers> {
                 );
               },
               child: Text("End Time: ${_endTime.hour}:${_endTime.minute}"),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TextButton(onPressed: () {}, child: Text("See Reservations")),
+            RoundedLoadingButton(
+              height: 40,
+              width: 30,
+              loaderSize: 20,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Add to reservations',
+                ),
+              ),
+              controller: _btnController,
+              onPressed: addToReservationsClicked,
             ),
           ],
         ),

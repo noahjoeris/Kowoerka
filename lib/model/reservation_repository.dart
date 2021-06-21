@@ -28,7 +28,6 @@ class ReservationRepository {
 
   ///check for collisions
   bool isAvailable(Reservation r) {
-    // returns true if collision exists
     return _reservations.every((repoElement) {
       if (r.workspaceID == repoElement.workspaceID) {
         if ((repoElement.dateTimeStart.isAfter(r.dateTimeStart) &&
