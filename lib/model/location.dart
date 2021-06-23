@@ -10,7 +10,7 @@ class Location {
   User realEstateAgent;
   String description;
   List<String> features;
-  int popularityScrore;
+
   int imageNumber;
   List<Workspace> workspaces;
 
@@ -23,7 +23,6 @@ class Location {
       required this.realEstateAgent,
       required this.description,
       required this.features,
-      required this.popularityScrore,
       required this.imageNumber,
       required this.workspaces});
 }

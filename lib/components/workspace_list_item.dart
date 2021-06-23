@@ -14,28 +14,14 @@ import 'package:kowoerka/model/workspace.dart';
 import 'package:kowoerka/services/locator.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
+import 'favourite_button.dart';
+
 //TODO refactor: combine listitems to reduce redundancy
 class WorkspaceListItem extends StatelessWidget {
   final GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
   final Workspace _workspace;
 
   WorkspaceListItem(this._workspace);
-
-  // late String isBookedMessage = createIsBookedMessage();
-  //
-  // String createIsBookedMessage() {
-  //   List<Reservation> res = locator<ReservationRepository>().reservations;
-  //   if (!res.any((element) => element.workspaceID == _workspace.id)) {
-  //     return "free to book";
-  //   }
-  //
-  //   if (res.any((element) =>
-  //       element.workspaceID == _workspace.id &&
-  //       element.dateTimeStart.isAfter(DateTime.now()))) {
-  //     return "upcoming reservations";
-  //   }
-  //   return "UNDEFINED";
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +65,13 @@ class FlipCardFront extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(children: [
-              FavouriteButton(),
+              FavouriteButton(
+                active: locator<UserRepository>()
+                    .getLoggedInUser()
+                    .favouriteWorkspaces
+                    .any((element) => element.id == workspace.id),
+                workspace: workspace,
+              ),
               Ink.image(
                 height: 230,
                 fit: BoxFit.fitWidth,
@@ -170,31 +162,6 @@ class FlipCardBack extends StatelessWidget {
             // ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _FavouriteButtonState extends State<FavouriteButton> {
-  @override
-  Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-              onPressed: () {
-                setState(() {
-                  widget.status = !widget.status;
-                });
-              },
-              icon: Icon(
-                widget.status ? Icons.favorite : Icons.favorite_border,
-                color: widget.status ? Colors.red : Colors.black54,
-                size: 40,
-              ),
-            )),
       ),
     );
   }
@@ -380,15 +347,4 @@ class _BookingAreaState extends State<BookingArea> {
       ],
     );
   }
-}
-
-class FavouriteButton extends StatefulWidget {
-  bool status = false;
-
-  FavouriteButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  _FavouriteButtonState createState() => _FavouriteButtonState();
 }

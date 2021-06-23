@@ -33,6 +33,7 @@ class SearchAppBar extends StatelessWidget {
                 FilterChip(
                   label: Text('Popular'),
                   onSelected: (event) {},
+                  checkmarkColor: Colors.blue,
                   selected: false,
                   elevation: 5,
                 ),

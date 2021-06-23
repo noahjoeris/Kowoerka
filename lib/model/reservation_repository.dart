@@ -20,12 +20,8 @@ class ReservationRepository {
 
   /// return: null if not booked or reservation if booked
   Reservation? getCurrentWorkspaceReservation(Workspace workspace) {
-    print(_reservations.length);
     for (int i = 0; i < _reservations.length; i++) {
       if (_reservations[i].workspace.id == workspace.id) {
-        print(_reservations[i].dateTimeStart);
-        print(_reservations[i].dateTimeEnd);
-
         if (_reservations[i].dateTimeStart.compareTo(DateTime.now()) <= 0 &&
             _reservations[i].dateTimeEnd.compareTo(DateTime.now()) >= 0)
           return _reservations[i];

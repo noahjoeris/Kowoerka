@@ -16,7 +16,6 @@ List<Location> generateFakeLocationsWithWorkspaces(
       postalCode: faker.address.zipCode(),
       street: faker.address.streetSuffix(),
       houseNumber: (Random().nextInt(200) + 1).toString(),
-      popularityScrore: Random().nextInt(100),
       description:
           "This building suits perfectly to entrepreneurs and freelancers",
       realEstateAgent: agents[Random().nextInt(agents.length)],
@@ -36,8 +35,8 @@ List<User> generateFakeUsers({int size = 10}) {
         id: i,
         mobilephoneNumber: faker.phoneNumber.us(),
         name: faker.person.name(),
-        favouriteLocations: List<Location>.empty(),
-        favouriteWorkspaces: List<Workspace>.empty()));
+        favouriteLocations: List<Location>.empty(growable: true),
+        favouriteWorkspaces: List<Workspace>.empty(growable: true)));
   }
   return users;
 }
