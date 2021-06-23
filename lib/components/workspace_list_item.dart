@@ -212,8 +212,8 @@ class BookingArea extends StatefulWidget {
 class _BookingAreaState extends State<BookingArea> {
   final RoundedLoadingButtonController _btnController =
       RoundedLoadingButtonController();
-  TimeOfDay _startTime = TimeOfDay.now();
-  TimeOfDay _endTime = TimeOfDay.now();
+  TimeOfDay _startTime = TimeOfDay.now().replacing(minute: 0);
+  TimeOfDay _endTime = TimeOfDay.now().replacing(minute: 0);
   DateTimeRange? _dateRange;
 
   bool iosStyle = false;
@@ -304,13 +304,11 @@ class _BookingAreaState extends State<BookingArea> {
                     onChange: onStartTimeChanged,
                     disableHour: false,
                     disableMinute: false,
-                    is24HrFormat: true,
                     minuteInterval: MinuteInterval.FIVE,
                   ),
                 );
               },
-              child:
-                  Text("Start Time: ${_startTime.hour}:${_startTime.minute}"),
+              child: Text("Start Time: ${_startTime.format(context)}"),
             ),
             TextButton(
               onPressed: () {
@@ -321,12 +319,11 @@ class _BookingAreaState extends State<BookingArea> {
                     onChange: onEndTimeChanged,
                     disableHour: false,
                     disableMinute: false,
-                    is24HrFormat: true,
                     minuteInterval: MinuteInterval.FIVE,
                   ),
                 );
               },
-              child: Text("End Time: ${_endTime.hour}:${_endTime.minute}"),
+              child: Text("End Time: ${_endTime.format(context)}"),
             ),
           ],
         ),

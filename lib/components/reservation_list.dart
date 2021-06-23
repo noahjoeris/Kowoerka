@@ -27,7 +27,7 @@ class _ReservationListState extends State<ReservationList> {
             Text(
                 "${reservationsSortedByTime[index].dateTimeStart.day}.${reservationsSortedByTime[index].dateTimeStart.month}.${reservationsSortedByTime[index].dateTimeStart.year} - ${reservationsSortedByTime[index].dateTimeEnd.day}.${reservationsSortedByTime[index].dateTimeEnd.month}.${reservationsSortedByTime[index].dateTimeEnd.year}"),
             Text(
-              "${reservationsSortedByTime[index].dateTimeStart.hour}:${reservationsSortedByTime[index].dateTimeStart.minute} - ${reservationsSortedByTime[index].dateTimeEnd.hour}:${reservationsSortedByTime[index].dateTimeEnd.minute}",
+              "${TimeOfDay.fromDateTime(reservationsSortedByTime[index].dateTimeStart).format(context)} - ${TimeOfDay.fromDateTime(reservationsSortedByTime[index].dateTimeEnd).format(context)}",
               style: TextStyle(color: Colors.grey, fontSize: 12),
             ),
           ],

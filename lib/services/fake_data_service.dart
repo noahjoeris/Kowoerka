@@ -6,7 +6,7 @@ import 'package:kowoerka/model/user.dart';
 import 'package:kowoerka/model/workspace.dart';
 
 List<Location> generateFakeLocationsWithWorkspaces(
-    {int size = 100, required List<User> agents}) {
+    {int size = 20, required List<User> agents}) {
   List<Location> locations = List.empty(growable: true);
 
   for (int i = 0; i < size; i++) {
