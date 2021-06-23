@@ -254,11 +254,23 @@ class _BookingAreaState extends State<BookingArea> {
       if (locator<ReservationRepository>().isAvailable(r)) {
         locator<ReservationRepository>().reservations.add(r);
         _btnController.success();
-      } else
+        final snackBar = SnackBar(
+            elevation: 10,
+            duration: Duration(seconds: 4),
+            content: Text('Successfully booked! Have a productive time'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else {
         _btnController.error();
+        final snackBar = SnackBar(
+            elevation: 10,
+            duration: Duration(seconds: 4),
+            content: Text(
+                'Someone already booked in this time period.\nSee Reservations for more details'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
     });
     //reset result
-    Timer(Duration(seconds: 3), () {
+    Timer(Duration(seconds: 4), () {
       _btnController.reset();
     });
   }
