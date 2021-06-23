@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flip_card/flip_card.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
+import 'package:kowoerka/components/reservation_list.dart';
 import 'package:kowoerka/model/reservation.dart';
-import 'package:kowoerka/model/reservation_repository.dart';
 import 'package:kowoerka/model/reservation_repository.dart';
 import 'package:kowoerka/model/user_repository.dart';
 import 'package:kowoerka/model/workspace.dart';
@@ -95,7 +95,7 @@ class FlipCardFront extends StatelessWidget {
                   Text(
                       "${workspace.pricePerHour.toStringAsFixed(2)}€ per hour"),
                   Text(reservationRepo
-                              .getCurrentWorkspaceReservation(workspace.id) !=
+                              .getCurrentWorkspaceReservation(workspace) !=
                           null
                       ? "currently booked"
                       : "free to book"),
@@ -231,7 +231,6 @@ class _BookingAreaState extends State<BookingArea> {
   }
 
   void addToReservationsClicked() async {
-    bool isAvailable = false;
     if (_dateRange == null) {
       _btnController.error();
       Timer(Duration(seconds: 2), () {
@@ -246,7 +245,7 @@ class _BookingAreaState extends State<BookingArea> {
         dateTimeEnd: DateTime(_dateRange!.end.year, _dateRange!.end.month,
             _dateRange!.end.day, _endTime.hour, _endTime.minute),
         pricePerHour: widget._workspace.pricePerHour,
-        workspaceID: widget._workspace.id,
+        workspace: widget._workspace,
         user: locator<UserRepository>().getLoggedInUser());
 
     // add delay for test purposes
@@ -334,7 +333,28 @@ class _BookingAreaState extends State<BookingArea> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            TextButton(onPressed: () {}, child: Text("See Reservations")),
+            TextButton(
+                onPressed: () async {
+                  await showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            title: Text("Reservations"),
+                            content: Container(
+                              width: 300,
+                              height: 400,
+                              child: ReservationList(
+                                  locator<ReservationRepository>()
+                                      .reservations),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('Close'),
+                              ),
+                            ],
+                          ));
+                },
+                child: Text("See Reservations")),
             RoundedLoadingButton(
               height: 40,
               width: 30,

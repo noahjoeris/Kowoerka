@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kowoerka/model/user.dart';
+import 'package:kowoerka/model/workspace.dart';
 
 class Reservation {
   String id;
-  String workspaceID;
+  Workspace workspace;
   User user;
   DateTime dateTimeStart;
   DateTime dateTimeEnd;
@@ -12,7 +13,7 @@ class Reservation {
 
   Reservation(
       {required this.id,
-      required this.workspaceID,
+      required this.workspace,
       required this.user,
       required this.dateTimeStart,
       required this.dateTimeEnd,

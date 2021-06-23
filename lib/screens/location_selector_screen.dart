@@ -10,21 +10,17 @@ class LocationSelectorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Location> locations = locator<LocationRepository>().locations;
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          CustomScrollView(
-            slivers: <Widget>[
-              SearchAppBar(
-                heading: "Choose a Location",
-                backButtonEnabled: false,
-              ),
-              SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                (context, index) => LocationListItem(locations[index]),
-                childCount: locations.length,
-              )),
-            ],
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SearchAppBar(
+            heading: "Choose a Location",
+            backButtonEnabled: false,
           ),
+          SliverList(
+              delegate: SliverChildBuilderDelegate(
+            (context, index) => LocationListItem(locations[index]),
+            childCount: locations.length,
+          )),
         ],
       ),
     );
