@@ -47,4 +47,8 @@ class ReservationRepository {
       return true;
     });
   }
+
+  void removeReservation(Reservation r) {
+    _reservations.remove(r);
+  }
 }

@@ -10,6 +10,7 @@ class ReservationList extends StatefulWidget {
   List<Reservation> _reservations;
   User? _loggedInUser;
 
+  //loggedInUser can be later used to be able to edit certain Reservations that belongs to user
   ReservationList(this._reservations, [this._loggedInUser]);
 }
 
@@ -21,11 +22,11 @@ class _ReservationListState extends State<ReservationList> {
     return ListView.builder(
       itemCount: reservationsSortedByTime.length,
       itemBuilder: (context, index) => ListTile(
-        onTap: () {},
         title: Column(
           children: [
             Text(
-                "${reservationsSortedByTime[index].dateTimeStart.day}.${reservationsSortedByTime[index].dateTimeStart.month}.${reservationsSortedByTime[index].dateTimeStart.year} - ${reservationsSortedByTime[index].dateTimeEnd.day}.${reservationsSortedByTime[index].dateTimeEnd.month}.${reservationsSortedByTime[index].dateTimeEnd.year}"),
+              "${reservationsSortedByTime[index].dateTimeStart.day}.${reservationsSortedByTime[index].dateTimeStart.month}.${reservationsSortedByTime[index].dateTimeStart.year} - ${reservationsSortedByTime[index].dateTimeEnd.day}.${reservationsSortedByTime[index].dateTimeEnd.month}.${reservationsSortedByTime[index].dateTimeEnd.year}",
+            ),
             Text(
               "${TimeOfDay.fromDateTime(reservationsSortedByTime[index].dateTimeStart).format(context)} - ${TimeOfDay.fromDateTime(reservationsSortedByTime[index].dateTimeEnd).format(context)}",
               style: TextStyle(color: Colors.grey, fontSize: 12),
@@ -33,7 +34,7 @@ class _ReservationListState extends State<ReservationList> {
           ],
         ),
         leading: CircleAvatar(
-            radius: 25,
+            radius: 22,
             backgroundImage: AssetImage(
                 "assets/images/workspace${reservationsSortedByTime[index].workspace.imageNumber}.jpg")),
       ),
