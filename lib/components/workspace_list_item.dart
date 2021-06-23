@@ -332,6 +332,21 @@ class _BookingAreaState extends State<BookingArea> {
           children: [
             TextButton(
                 onPressed: () async {
+                  List<Reservation> reservationListForDialog =
+                      locator<ReservationRepository>()
+                          .getUpcomingWorkspaceReservations(widget._workspace);
+                  // print(reservationListForDialog);
+                  if (locator<ReservationRepository>()
+                          .getCurrentWorkspaceReservation(widget._workspace) !=
+                      null)
+                    reservationListForDialog.add(
+                        locator<ReservationRepository>()
+                            .getCurrentWorkspaceReservation(
+                                widget._workspace)!);
+
+                  // print(locator<ReservationRepository>()
+                  //     .getCurrentWorkspaceReservation(widget._workspace));
+
                   await showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
@@ -339,9 +354,7 @@ class _BookingAreaState extends State<BookingArea> {
                             content: Container(
                               width: 300,
                               height: 400,
-                              child: ReservationList(
-                                  locator<ReservationRepository>()
-                                      .reservations),
+                              child: ReservationList(reservationListForDialog),
                             ),
                             actions: <Widget>[
                               TextButton(
