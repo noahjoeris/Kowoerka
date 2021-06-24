@@ -17,7 +17,7 @@ class ReservationsScreen extends StatelessWidget {
         title: Text("Your Workspace Reservations"),
       ),
       body: _reservations.isNotEmpty
-          ? ReservationList(_reservations)
+          ? ReservationList(_reservations, true)
           : Center(child: Text("You have not booked a workspace yet")),
     );
   }

@@ -385,8 +385,9 @@ class _BookingAreaState extends State<BookingArea> {
                             content: Container(
                               width: 300,
                               height: 400,
-                              child: ReservationList(reservationListForDialog,
-                                  locator<UserRepository>().getLoggedInUser()),
+                              child: ReservationList(
+                                reservationListForDialog,
+                              ),
                             ),
                             actions: <Widget>[
                               TextButton(

@@ -9,10 +9,9 @@ class ReservationList extends StatefulWidget {
   _ReservationListState createState() => _ReservationListState();
 
   List<Reservation> _reservations;
-  User? _loggedInUser;
+  final bool _showPrice;
 
-  //loggedInUser can be later used to be able to edit certain Reservations that belongs to user
-  ReservationList(this._reservations, [this._loggedInUser]);
+  ReservationList(this._reservations, [this._showPrice = false]);
 }
 
 class _ReservationListState extends State<ReservationList> {
@@ -48,6 +47,10 @@ class _ReservationListState extends State<ReservationList> {
                   radius: 22,
                   backgroundImage: AssetImage(
                       "assets/images/workspace${reservationsSortedByTime[index].workspace.imageNumber}.jpg")),
+              trailing: widget._showPrice
+                  ? Text(
+                      "${reservationsSortedByTime[index].getOverallPrice().toStringAsFixed(2)}€")
+                  : null,
             ),
           );
   }

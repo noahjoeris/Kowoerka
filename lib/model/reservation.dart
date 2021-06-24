@@ -8,8 +8,11 @@ class Reservation {
   User user;
   DateTime dateTimeStart;
   DateTime dateTimeEnd;
-
   double pricePerHour;
+
+  double getOverallPrice() {
+    return dateTimeEnd.difference(dateTimeStart).inHours * pricePerHour;
+  }
 
   Reservation(
       {required this.id,
