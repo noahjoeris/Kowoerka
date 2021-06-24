@@ -4,7 +4,10 @@ import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:kowoerka/components/big_home_card.dart';
 import 'package:kowoerka/model/location_repository.dart';
+import 'package:kowoerka/model/reservation_repository.dart';
+import 'package:kowoerka/model/user_repository.dart';
 import 'package:kowoerka/screens/location_selector_screen.dart';
+import 'package:kowoerka/screens/reservations_screen.dart';
 import 'package:kowoerka/services/locator.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -36,7 +39,16 @@ class HomeScreen extends StatelessWidget {
             BigHomeCard(
                 imageName: "reservation1.png",
                 title: "Reservations",
-                onClick: () {}),
+                onClick: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ReservationsScreen(
+                              locator<ReservationRepository>()
+                                  .getReservationsForUser(
+                                      locator<UserRepository>()
+                                          .getLoggedInUser()))));
+                }),
             BigHomeCard(
                 imageName: "agent.jpg", title: "Be the Agent", onClick: () {}),
           ],

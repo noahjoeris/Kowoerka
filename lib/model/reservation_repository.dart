@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kowoerka/model/reservation.dart';
+import 'package:kowoerka/model/user.dart';
 import 'package:kowoerka/model/workspace.dart';
 
 class ReservationRepository {
@@ -30,7 +31,11 @@ class ReservationRepository {
     return null;
   }
 
-  ///check for collisions
+  List<Reservation> getReservationsForUser(User u) {
+    return _reservations.where((element) => element.user.id == u.id).toList();
+  }
+
+  //check for collisions
   bool isAvailable(Reservation r) {
     return _reservations.every((repoElement) {
       if (r.workspace.id == repoElement.workspace.id) {
