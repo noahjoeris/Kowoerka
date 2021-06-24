@@ -7,8 +7,9 @@ import 'package:kowoerka/services/locator.dart';
 
 class LocationSelectorScreen extends StatefulWidget {
   final List<Location> _locations;
+  final bool _agentViewActive;
 
-  LocationSelectorScreen(this._locations);
+  LocationSelectorScreen(this._locations, [this._agentViewActive = false]);
 
   @override
   _LocationSelectorScreenState createState() => _LocationSelectorScreenState();
@@ -19,12 +20,13 @@ class _LocationSelectorScreenState extends State<LocationSelectorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<Location> locations = locator<LocationRepository>().locations;
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-              title: Text("Choose a location"),
+              title: Text(widget._agentViewActive
+                  ? "Your Locations"
+                  : "Choose a Location"),
               floating: true,
               pinned: false,
               snap: false,
@@ -36,27 +38,28 @@ class _LocationSelectorScreenState extends State<LocationSelectorScreen> {
                   Navigator.pop(context);
                 },
               ),
-              bottom: PreferredSize(
-                preferredSize: Size.fromHeight(30),
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: Row(
-                    children: [
-                      FilterChip(
-                        label: Text('Favorites'),
-                        onSelected: (event) {
-                          setState(() {
-                            filterFavouriteActive = !filterFavouriteActive;
-                          });
-                        },
-                        selected: filterFavouriteActive,
-                        checkmarkColor: Colors.red,
-                        elevation: 5,
+              bottom: widget._agentViewActive
+                  ? null
+                  : PreferredSize(
+                      preferredSize: Size.fromHeight(30),
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: FilterChip(
+                            label: Text('Favorites'),
+                            onSelected: (event) {
+                              setState(() {
+                                filterFavouriteActive = !filterFavouriteActive;
+                              });
+                            },
+                            selected: filterFavouriteActive,
+                            checkmarkColor: Colors.red,
+                            elevation: 5,
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              )),
+                    )),
           SliverList(
               delegate: SliverChildBuilderDelegate(
             (context, index) => filterFavouriteActive
