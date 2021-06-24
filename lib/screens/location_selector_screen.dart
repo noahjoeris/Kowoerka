@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kowoerka/components/location_list_item.dart';
-import 'package:kowoerka/components/search_app_bar.dart';
 import 'package:kowoerka/model/location.dart';
 import 'package:kowoerka/model/location_repository.dart';
 import 'package:kowoerka/model/user_repository.dart';

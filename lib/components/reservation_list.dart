@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import 'package:kowoerka/components/search_app_bar.dart';
 import 'package:kowoerka/model/location_repository.dart';
 import 'package:kowoerka/model/reservation.dart';
 import 'package:kowoerka/model/user.dart';

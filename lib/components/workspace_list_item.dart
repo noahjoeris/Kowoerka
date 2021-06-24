@@ -222,11 +222,21 @@ class _BookingAreaState extends State<BookingArea> {
       });
       return;
     }
-    // invalid time range
-    print(_startTime.hour);
-    if ((_dateRange!.start.compareTo(_dateRange!.end) == 0) &&
-        _startTime.hour * 60 + _startTime.minute >=
-            _endTime.hour * 60 + _endTime.minute) {
+    print(_dateRange!.start);
+    print(DateTime.now());
+    print(_dateRange!.start.day == DateTime.now().day &&
+        _dateRange!.start.month == DateTime.now().month &&
+        _dateRange!.start.year == DateTime.now().year);
+
+    // invalid time range: when endtime is before starttime
+    if (((_dateRange!.start.compareTo(_dateRange!.end) == 0) &&
+            _startTime.hour * 60 + _startTime.minute >=
+                _endTime.hour * 60 + _endTime.minute) ||
+        (_dateRange!.start.day == DateTime.now().day &&
+            _dateRange!.start.month == DateTime.now().month &&
+            _dateRange!.start.year == DateTime.now().year &&
+            _startTime.hour * 60 + _startTime.minute <
+                TimeOfDay.now().hour * 60 + TimeOfDay.now().minute)) {
       final snackBar = SnackBar(
           elevation: 10,
           duration: Duration(seconds: 4),
