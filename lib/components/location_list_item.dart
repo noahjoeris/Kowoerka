@@ -56,8 +56,8 @@ class FlipCardFront extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      WorkspaceSelectorScreen(location.workspaces)));
+                  builder: (context) => WorkspaceSelectorScreen(
+                      location.workspaces, agentViewActive)));
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,

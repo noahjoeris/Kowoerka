@@ -20,8 +20,9 @@ import 'favourite_button.dart';
 class WorkspaceListItem extends StatelessWidget {
   final GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
   final Workspace _workspace;
+  final bool _agentViewActive;
 
-  WorkspaceListItem(this._workspace);
+  WorkspaceListItem(this._workspace, [this._agentViewActive = false]);
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class WorkspaceListItem extends StatelessWidget {
         front: FlipCardFront(
           cardKey: cardKey,
           workspace: _workspace,
+          agentViewActive: _agentViewActive,
         ),
         back: FlipCardBack(
           cardKey: cardKey,
@@ -41,13 +43,18 @@ class WorkspaceListItem extends StatelessWidget {
 }
 
 class FlipCardFront extends StatelessWidget {
-  FlipCardFront({Key? key, required this.cardKey, required this.workspace})
+  FlipCardFront(
+      {Key? key,
+      required this.cardKey,
+      required this.workspace,
+      required this.agentViewActive})
       : super(key: key);
 
   final GlobalKey<FlipCardState> cardKey;
   final Workspace workspace;
   final ReservationRepository reservationRepo =
       locator<ReservationRepository>();
+  final bool agentViewActive;
 
   @override
   Widget build(BuildContext context) {
@@ -65,23 +72,40 @@ class FlipCardFront extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(children: [
-              FavouriteButton(
-                active: locator<UserRepository>()
-                    .getLoggedInUser()
-                    .favouriteWorkspaces
-                    .any((element) => element.id == workspace.id),
-                onActivated: () {
-                  locator<UserRepository>()
-                      .getLoggedInUser()
-                      .favouriteWorkspaces
-                      .add(workspace);
-                },
-                onInactivated: () {
-                  locator<UserRepository>()
-                      .getLoggedInUser()
-                      .favouriteWorkspaces
-                      .remove(workspace);
-                },
+              Positioned.fill(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: agentViewActive
+                        ? IconButton(
+                            onPressed: () {},
+                            splashColor: Colors.blue.shade100,
+                            icon: Icon(
+                              Icons.edit,
+                              color: Colors.blue,
+                              size: 30,
+                            ))
+                        : FavouriteButton(
+                            active: locator<UserRepository>()
+                                .getLoggedInUser()
+                                .favouriteWorkspaces
+                                .any((element) => element.id == workspace.id),
+                            onActivated: () {
+                              locator<UserRepository>()
+                                  .getLoggedInUser()
+                                  .favouriteWorkspaces
+                                  .add(workspace);
+                            },
+                            onInactivated: () {
+                              locator<UserRepository>()
+                                  .getLoggedInUser()
+                                  .favouriteWorkspaces
+                                  .remove(workspace);
+                            },
+                          ),
+                  ),
+                ),
               ),
               Ink.image(
                 height: 230,

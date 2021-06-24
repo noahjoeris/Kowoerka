@@ -14,7 +14,7 @@ class LocationRepository {
     Location l = _locations
         .firstWhere((element) => element.workspaces.contains(workspace));
 
-    return "${l.city} ${l.street} ${l.houseNumber}";
+    return "${l.street} ${l.houseNumber}, ${l.city}";
   }
 
   List<Location> getLocationsByUser(User user) {
