@@ -10,8 +10,9 @@ import 'package:kowoerka/services/locator.dart';
 class LocationListItem extends StatelessWidget {
   final GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
   final Location _location;
+  final bool _agentViewActive;
 
-  LocationListItem(this._location);
+  LocationListItem(this._location, [this._agentViewActive = false]);
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class LocationListItem extends StatelessWidget {
         front: FlipCardFront(
           cardKey: cardKey,
           location: _location,
+          agentViewActive: _agentViewActive,
         ),
         back: FlipCardBack(
           cardKey: cardKey,
@@ -35,10 +37,12 @@ class FlipCardFront extends StatelessWidget {
     Key? key,
     required this.cardKey,
     required this.location,
+    required this.agentViewActive,
   }) : super(key: key);
 
   final GlobalKey<FlipCardState> cardKey;
   final Location location;
+  final bool agentViewActive;
 
   @override
   Widget build(BuildContext context) {
@@ -60,24 +64,26 @@ class FlipCardFront extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(children: [
-              FavouriteButton(
-                active: locator<UserRepository>()
-                    .getLoggedInUser()
-                    .favouriteLocations
-                    .any((element) => element.id == location.id),
-                onActivated: () {
-                  locator<UserRepository>()
-                      .getLoggedInUser()
-                      .favouriteLocations
-                      .add(location);
-                },
-                onInactivated: () {
-                  locator<UserRepository>()
-                      .getLoggedInUser()
-                      .favouriteLocations
-                      .remove(location);
-                },
-              ),
+              agentViewActive
+                  ? IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                  : FavouriteButton(
+                      active: locator<UserRepository>()
+                          .getLoggedInUser()
+                          .favouriteLocations
+                          .any((element) => element.id == location.id),
+                      onActivated: () {
+                        locator<UserRepository>()
+                            .getLoggedInUser()
+                            .favouriteLocations
+                            .add(location);
+                      },
+                      onInactivated: () {
+                        locator<UserRepository>()
+                            .getLoggedInUser()
+                            .favouriteLocations
+                            .remove(location);
+                      },
+                    ),
               Ink.image(
                 height: 190,
                 fit: BoxFit.fitWidth,
