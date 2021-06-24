@@ -17,6 +17,11 @@ class LocationRepository {
     return "${l.street} ${l.houseNumber}, ${l.city}";
   }
 
+  Location getLocationByWorkspace(Workspace workspace) {
+    return _locations
+        .firstWhere((element) => element.workspaces.contains(workspace));
+  }
+
   List<Location> getLocationsByUser(User user) {
     return _locations
         .where((element) => element.realEstateAgent.id == user.id)

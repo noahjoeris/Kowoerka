@@ -10,16 +10,16 @@ import 'package:kowoerka/screens/home_screen.dart';
 import 'package:kowoerka/services/locator.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
-class LocationCreator extends StatefulWidget {
+class LocationCreatorScreen extends StatefulWidget {
   @override
-  _LocationCreatorState createState() => _LocationCreatorState();
+  _LocationCreatorScreenState createState() => _LocationCreatorScreenState();
 
   Location? _editingLocation;
 
-  LocationCreator([this._editingLocation]);
+  LocationCreatorScreen([this._editingLocation]);
 }
 
-class _LocationCreatorState extends State<LocationCreator> {
+class _LocationCreatorScreenState extends State<LocationCreatorScreen> {
   late TextEditingController _featuresController;
   late TextEditingController _cityController;
   late TextEditingController _streetController;
@@ -122,48 +122,46 @@ class _LocationCreatorState extends State<LocationCreator> {
       body: Stack(children: [
         Padding(
           padding: EdgeInsets.all(15.0),
-          child: Expanded(
-            child: ListView(children: [
-              TextField(
-                controller: _cityController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), labelText: "City"),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: _postalCodeController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), labelText: "Postal Code"),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: _streetController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), labelText: "Street"),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: _houseNumberController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), labelText: "House Number"),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                maxLines: 3,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), labelText: "Description"),
-                controller: _descriptionController,
-              ),
-              SizedBox(height: 20),
-              TextField(
-                controller: _featuresController,
-                decoration: InputDecoration(
-                    helperText: "comma seperated values",
-                    border: OutlineInputBorder(),
-                    labelText: "Features"),
-              ),
-            ]),
-          ),
+          child: ListView(children: [
+            TextField(
+              controller: _cityController,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), labelText: "City"),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              controller: _postalCodeController,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), labelText: "Postal Code"),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              controller: _streetController,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), labelText: "Street"),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              controller: _houseNumberController,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), labelText: "House Number"),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              maxLines: 3,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(), labelText: "Description"),
+              controller: _descriptionController,
+            ),
+            SizedBox(height: 20),
+            TextField(
+              controller: _featuresController,
+              decoration: InputDecoration(
+                  helperText: "comma seperated values",
+                  border: OutlineInputBorder(),
+                  labelText: "Features"),
+            ),
+          ]),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
@@ -176,7 +174,9 @@ class _LocationCreatorState extends State<LocationCreator> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  widget._editingLocation != null ? 'Save Changes' : "Save",
+                  widget._editingLocation != null
+                      ? 'Save Changes'
+                      : "Save new Location",
                 ),
               ),
               controller: _btnController,

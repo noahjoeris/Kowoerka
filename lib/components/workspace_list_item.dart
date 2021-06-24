@@ -11,6 +11,7 @@ import 'package:kowoerka/model/reservation.dart';
 import 'package:kowoerka/model/reservation_repository.dart';
 import 'package:kowoerka/model/user_repository.dart';
 import 'package:kowoerka/model/workspace.dart';
+import 'package:kowoerka/screens/workspace_creator_screen.dart';
 import 'package:kowoerka/services/locator.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
@@ -79,7 +80,13 @@ class FlipCardFront extends StatelessWidget {
                     alignment: Alignment.topRight,
                     child: agentViewActive
                         ? IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          WorkspaceCreatorScreen(workspace)));
+                            },
                             splashColor: Colors.blue.shade100,
                             icon: Icon(
                               Icons.edit,
@@ -163,6 +170,7 @@ class FlipCardBack extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(12),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                       "${workspace.description}\n\nFeatures: ${workspace.features}"),
@@ -343,7 +351,7 @@ class _BookingAreaState extends State<BookingArea> {
                   ),
                 );
               },
-              child: Text("Start Time: ${_startTime.format(context)}"),
+              child: Text("Check-In: ${_startTime.format(context)}"),
             ),
             TextButton(
               onPressed: () {
@@ -358,7 +366,7 @@ class _BookingAreaState extends State<BookingArea> {
                   ),
                 );
               },
-              child: Text("End Time: ${_endTime.format(context)}"),
+              child: Text("Check-Out: ${_endTime.format(context)}"),
             ),
           ],
         ),

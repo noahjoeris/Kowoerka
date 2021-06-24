@@ -5,6 +5,7 @@ import 'package:badges/badges.dart';
 import 'package:kowoerka/model/location_repository.dart';
 import 'package:kowoerka/model/user_repository.dart';
 import 'package:kowoerka/model/workspace.dart';
+import 'package:kowoerka/screens/workspace_creator_screen.dart';
 import 'package:kowoerka/services/locator.dart';
 
 class WorkspaceSelectorScreen extends StatefulWidget {
@@ -113,7 +114,17 @@ class _WorkspaceSelectorScreenState extends State<WorkspaceSelectorScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: FloatingActionButton(
-                    child: Icon(Icons.add), onPressed: () {}),
+                    child: Icon(Icons.add),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WorkspaceCreatorScreen(
+                                  null,
+                                  locator<LocationRepository>()
+                                      .getLocationByWorkspace(
+                                          widget._workspaces.first))));
+                    }),
               )),
       ]),
     );

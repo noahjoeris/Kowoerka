@@ -15,10 +15,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () {},
-        ),
+        automaticallyImplyLeading: false,
         title: Text("Kowoerka"),
       ),
       body: Padding(

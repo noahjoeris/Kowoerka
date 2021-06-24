@@ -3,7 +3,7 @@ import 'package:kowoerka/components/location_list_item.dart';
 import 'package:kowoerka/model/location.dart';
 import 'package:kowoerka/model/location_repository.dart';
 import 'package:kowoerka/model/user_repository.dart';
-import 'package:kowoerka/screens/location_creator.dart';
+import 'package:kowoerka/screens/location_creator_screen.dart';
 import 'package:kowoerka/services/locator.dart';
 
 class LocationSelectorScreen extends StatefulWidget {
@@ -99,7 +99,7 @@ class _LocationSelectorScreenState extends State<LocationSelectorScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => LocationCreator()));
+                              builder: (context) => LocationCreatorScreen()));
                     }),
               )),
       ]),
