@@ -31,7 +31,7 @@ class _LocationSelectorScreenState extends State<LocationSelectorScreen> {
               pinned: false,
               snap: false,
               elevation: 5,
-              expandedHeight: 100,
+              expandedHeight: widget._agentViewActive ? 0 : 100,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
@@ -63,13 +63,16 @@ class _LocationSelectorScreenState extends State<LocationSelectorScreen> {
           SliverList(
               delegate: SliverChildBuilderDelegate(
             (context, index) => filterFavouriteActive
-                ? LocationListItem(widget._locations
-                    .where((element) => locator<UserRepository>()
-                        .getLoggedInUser()
-                        .favouriteLocations
-                        .any((element2) => element.id == element2.id))
-                    .toList()[index])
-                : LocationListItem(widget._locations[index]),
+                ? LocationListItem(
+                    widget._locations
+                        .where((element) => locator<UserRepository>()
+                            .getLoggedInUser()
+                            .favouriteLocations
+                            .any((element2) => element.id == element2.id))
+                        .toList()[index],
+                    widget._agentViewActive)
+                : LocationListItem(
+                    widget._locations[index], widget._agentViewActive),
             childCount: filterFavouriteActive
                 ? widget._locations
                     .where((element) => locator<UserRepository>()

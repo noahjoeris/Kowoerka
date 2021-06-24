@@ -64,26 +64,40 @@ class FlipCardFront extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(children: [
-              agentViewActive
-                  ? IconButton(onPressed: () {}, icon: Icon(Icons.edit))
-                  : FavouriteButton(
-                      active: locator<UserRepository>()
-                          .getLoggedInUser()
-                          .favouriteLocations
-                          .any((element) => element.id == location.id),
-                      onActivated: () {
-                        locator<UserRepository>()
-                            .getLoggedInUser()
-                            .favouriteLocations
-                            .add(location);
-                      },
-                      onInactivated: () {
-                        locator<UserRepository>()
-                            .getLoggedInUser()
-                            .favouriteLocations
-                            .remove(location);
-                      },
-                    ),
+              Positioned.fill(
+                  child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: agentViewActive
+                      ? IconButton(
+                          onPressed: () {},
+                          splashColor: Colors.blue.shade100,
+                          icon: Icon(
+                            Icons.edit,
+                            color: Colors.blue,
+                            size: 30,
+                          ))
+                      : FavouriteButton(
+                          active: locator<UserRepository>()
+                              .getLoggedInUser()
+                              .favouriteLocations
+                              .any((element) => element.id == location.id),
+                          onActivated: () {
+                            locator<UserRepository>()
+                                .getLoggedInUser()
+                                .favouriteLocations
+                                .add(location);
+                          },
+                          onInactivated: () {
+                            locator<UserRepository>()
+                                .getLoggedInUser()
+                                .favouriteLocations
+                                .remove(location);
+                          },
+                        ),
+                ),
+              )),
               Ink.image(
                 height: 190,
                 fit: BoxFit.fitWidth,

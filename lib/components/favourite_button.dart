@@ -22,27 +22,20 @@ class FavouriteButton extends StatefulWidget {
 class _FavouriteButtonState extends State<FavouriteButton> {
   @override
   Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-              onPressed: () {
-                if (widget.active)
-                  widget.onInactivated();
-                else
-                  widget.onActivated();
-                setState(() {
-                  widget.active = !widget.active;
-                });
-              },
-              icon: Icon(
-                widget.active ? Icons.favorite : Icons.favorite_border,
-                color: widget.active ? Colors.red : Colors.black54,
-                size: 40,
-              ),
-            )),
+    return IconButton(
+      onPressed: () {
+        if (widget.active)
+          widget.onInactivated();
+        else
+          widget.onActivated();
+        setState(() {
+          widget.active = !widget.active;
+        });
+      },
+      icon: Icon(
+        widget.active ? Icons.favorite : Icons.favorite_border,
+        color: widget.active ? Colors.red : Colors.black54,
+        size: 40,
       ),
     );
   }
