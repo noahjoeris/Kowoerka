@@ -209,13 +209,36 @@ class _BookingAreaState extends State<BookingArea> {
   }
 
   void addToReservationsClicked() async {
+    // invalid dateRange
     if (_dateRange == null) {
+      final snackBar = SnackBar(
+          elevation: 10,
+          duration: Duration(seconds: 4),
+          content: Text('Please specify a date'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       _btnController.error();
       Timer(Duration(seconds: 2), () {
         _btnController.reset();
       });
       return;
     }
+    // invalid time range
+    print(_startTime.hour);
+    if ((_dateRange!.start.compareTo(_dateRange!.end) == 0) &&
+        _startTime.hour * 60 + _startTime.minute >=
+            _endTime.hour * 60 + _endTime.minute) {
+      final snackBar = SnackBar(
+          elevation: 10,
+          duration: Duration(seconds: 4),
+          content: Text('Please specify a valid time range'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      _btnController.error();
+      Timer(Duration(seconds: 2), () {
+        _btnController.reset();
+      });
+      return;
+    }
+
     var r = Reservation(
         id: faker.guid.guid(),
         dateTimeStart: DateTime(_dateRange!.start.year, _dateRange!.start.month,

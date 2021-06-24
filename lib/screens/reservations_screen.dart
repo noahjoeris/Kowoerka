@@ -18,7 +18,7 @@ class ReservationsScreen extends StatelessWidget {
       ),
       body: _reservations.isNotEmpty
           ? ReservationList(_reservations)
-          : Center(child: Text("You never booked a workspace yet")),
+          : Center(child: Text("You have not booked a workspace yet")),
     );
   }
 }
