@@ -21,70 +21,82 @@ class _LocationSelectorScreenState extends State<LocationSelectorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-              title: Text(widget._agentViewActive
-                  ? "Your Locations"
-                  : "Choose a Location"),
-              floating: true,
-              pinned: false,
-              snap: false,
-              elevation: 5,
-              expandedHeight: widget._agentViewActive ? 0 : 100,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              bottom: widget._agentViewActive
-                  ? null
-                  : PreferredSize(
-                      preferredSize: Size.fromHeight(30),
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: FilterChip(
-                            label: Text('Favorites'),
-                            onSelected: (event) {
-                              setState(() {
-                                filterFavouriteActive = !filterFavouriteActive;
-                              });
-                            },
-                            selected: filterFavouriteActive,
-                            checkmarkColor: Colors.red,
-                            elevation: 5,
+      body: Stack(children: [
+        CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+                title: Text(widget._agentViewActive
+                    ? "Your Locations"
+                    : "Choose a Location"),
+                floating: true,
+                pinned: false,
+                snap: false,
+                elevation: 5,
+                expandedHeight: widget._agentViewActive ? 0 : 100,
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                bottom: widget._agentViewActive
+                    ? null
+                    : PreferredSize(
+                        preferredSize: Size.fromHeight(30),
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: FilterChip(
+                              label: Text('Favorites'),
+                              onSelected: (event) {
+                                setState(() {
+                                  filterFavouriteActive =
+                                      !filterFavouriteActive;
+                                });
+                              },
+                              selected: filterFavouriteActive,
+                              checkmarkColor: Colors.red,
+                              elevation: 5,
+                            ),
                           ),
                         ),
-                      ),
-                    )),
-          SliverList(
-              delegate: SliverChildBuilderDelegate(
-            (context, index) => filterFavouriteActive
-                ? LocationListItem(
-                    widget._locations
-                        .where((element) => locator<UserRepository>()
-                            .getLoggedInUser()
-                            .favouriteLocations
-                            .any((element2) => element.id == element2.id))
-                        .toList()[index],
-                    widget._agentViewActive)
-                : LocationListItem(
-                    widget._locations[index], widget._agentViewActive),
-            childCount: filterFavouriteActive
-                ? widget._locations
-                    .where((element) => locator<UserRepository>()
-                        .getLoggedInUser()
-                        .favouriteLocations
-                        .any((element2) => element.id == element2.id))
-                    .toList()
-                    .length
-                : widget._locations.length,
-          )),
-        ],
-      ),
+                      )),
+            SliverList(
+                delegate: SliverChildBuilderDelegate(
+              (context, index) => filterFavouriteActive
+                  ? LocationListItem(
+                      widget._locations
+                          .where((element) => locator<UserRepository>()
+                              .getLoggedInUser()
+                              .favouriteLocations
+                              .any((element2) => element.id == element2.id))
+                          .toList()[index],
+                      widget._agentViewActive)
+                  : LocationListItem(
+                      widget._locations[index], widget._agentViewActive),
+              childCount: filterFavouriteActive
+                  ? widget._locations
+                      .where((element) => locator<UserRepository>()
+                          .getLoggedInUser()
+                          .favouriteLocations
+                          .any((element2) => element.id == element2.id))
+                      .toList()
+                      .length
+                  : widget._locations.length,
+            )),
+          ],
+        ),
+        widget._agentViewActive
+            ? Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: FloatingActionButton(
+                      child: Icon(Icons.add), onPressed: () {}),
+                ))
+            : Container(),
+      ]),
     );
   }
 }
