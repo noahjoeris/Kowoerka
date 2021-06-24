@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flip_card/flip_card.dart';
+import 'package:kowoerka/components/favourite_button.dart';
 import 'package:kowoerka/model/location.dart';
+import 'package:kowoerka/model/user_repository.dart';
 import 'package:kowoerka/screens/workspace_selector_screen.dart';
+import 'package:kowoerka/services/locator.dart';
 
 class LocationListItem extends StatelessWidget {
   final GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
@@ -57,7 +60,24 @@ class FlipCardFront extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(children: [
-              FavouriteButton(),
+              FavouriteButton(
+                active: locator<UserRepository>()
+                    .getLoggedInUser()
+                    .favouriteLocations
+                    .any((element) => element.id == location.id),
+                onActivated: () {
+                  locator<UserRepository>()
+                      .getLoggedInUser()
+                      .favouriteLocations
+                      .add(location);
+                },
+                onInactivated: () {
+                  locator<UserRepository>()
+                      .getLoggedInUser()
+                      .favouriteLocations
+                      .remove(location);
+                },
+              ),
               Ink.image(
                 height: 190,
                 fit: BoxFit.fitWidth,
@@ -147,39 +167,4 @@ class FlipCardBack extends StatelessWidget {
       ),
     );
   }
-}
-
-class _FavouriteButtonState extends State<FavouriteButton> {
-  @override
-  Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-              onPressed: () {
-                setState(() {
-                  widget.status = !widget.status;
-                });
-              },
-              icon: Icon(
-                widget.status ? Icons.favorite : Icons.favorite_border,
-                color: widget.status ? Colors.red : Colors.black54,
-                size: 40,
-              ),
-            )),
-      ),
-    );
-  }
-}
-
-class FavouriteButton extends StatefulWidget {
-  bool status = false;
-  FavouriteButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  _FavouriteButtonState createState() => _FavouriteButtonState();
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kowoerka/model/location_repository.dart';
 import 'package:kowoerka/screens/location_selector_screen.dart';
 import 'package:kowoerka/screens/workspace_selector_screen.dart';
 import 'package:kowoerka/services/locator.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.blue,
         brightness: Brightness.dark,
       ),
-      home: LocationSelectorScreen(),
+      home: LocationSelectorScreen(locator<LocationRepository>().locations),
     );
   }
 }

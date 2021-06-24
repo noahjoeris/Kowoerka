@@ -19,17 +19,9 @@ class WorkspaceSelectorScreen extends StatefulWidget {
 
 class _WorkspaceSelectorScreenState extends State<WorkspaceSelectorScreen> {
   bool filterFavouriteActive = false;
-  late List<Workspace> _favouriteWorkspaces;
 
   @override
   Widget build(BuildContext context) {
-    _favouriteWorkspaces = widget._workspaces
-        .where((element) => locator<UserRepository>()
-            .getLoggedInUser()
-            .favouriteWorkspaces
-            .any((element2) => element.id == element2.id))
-        .toList();
-
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -56,15 +48,6 @@ class _WorkspaceSelectorScreenState extends State<WorkspaceSelectorScreen> {
                         label: Text('Favorites'),
                         onSelected: (event) {
                           setState(() {
-                            if (!filterFavouriteActive) {
-                              _favouriteWorkspaces = widget._workspaces
-                                  .where((element) => locator<UserRepository>()
-                                      .getLoggedInUser()
-                                      .favouriteWorkspaces
-                                      .any((element2) =>
-                                          element.id == element2.id))
-                                  .toList();
-                            }
                             filterFavouriteActive = !filterFavouriteActive;
                           });
                         },
@@ -79,10 +62,21 @@ class _WorkspaceSelectorScreenState extends State<WorkspaceSelectorScreen> {
           SliverList(
               delegate: SliverChildBuilderDelegate(
             (context, index) => filterFavouriteActive
-                ? WorkspaceListItem(_favouriteWorkspaces[index])
+                ? WorkspaceListItem(widget._workspaces
+                    .where((element) => locator<UserRepository>()
+                        .getLoggedInUser()
+                        .favouriteWorkspaces
+                        .any((element2) => element.id == element2.id))
+                    .toList()[index])
                 : WorkspaceListItem(widget._workspaces[index]),
             childCount: filterFavouriteActive
-                ? _favouriteWorkspaces.length
+                ? widget._workspaces
+                    .where((element) => locator<UserRepository>()
+                        .getLoggedInUser()
+                        .favouriteWorkspaces
+                        .any((element2) => element.id == element2.id))
+                    .toList()
+                    .length
                 : widget._workspaces.length,
           )),
         ],

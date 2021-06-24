@@ -70,7 +70,18 @@ class FlipCardFront extends StatelessWidget {
                     .getLoggedInUser()
                     .favouriteWorkspaces
                     .any((element) => element.id == workspace.id),
-                workspace: workspace,
+                onActivated: () {
+                  locator<UserRepository>()
+                      .getLoggedInUser()
+                      .favouriteWorkspaces
+                      .add(workspace);
+                },
+                onInactivated: () {
+                  locator<UserRepository>()
+                      .getLoggedInUser()
+                      .favouriteWorkspaces
+                      .remove(workspace);
+                },
               ),
               Ink.image(
                 height: 230,

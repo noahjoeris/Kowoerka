@@ -5,12 +5,14 @@ import 'package:kowoerka/services/locator.dart';
 
 class FavouriteButton extends StatefulWidget {
   bool active;
-  Workspace workspace;
+  Function onActivated;
+  Function onInactivated;
 
   FavouriteButton({
     Key? key,
     required this.active,
-    required this.workspace,
+    required this.onActivated,
+    required this.onInactivated,
   }) : super(key: key);
 
   @override
@@ -28,15 +30,9 @@ class _FavouriteButtonState extends State<FavouriteButton> {
             child: IconButton(
               onPressed: () {
                 if (widget.active)
-                  locator<UserRepository>()
-                      .getLoggedInUser()
-                      .favouriteWorkspaces
-                      .remove(widget.workspace);
+                  widget.onInactivated();
                 else
-                  locator<UserRepository>()
-                      .getLoggedInUser()
-                      .favouriteWorkspaces
-                      .add(widget.workspace);
+                  widget.onActivated();
                 setState(() {
                   widget.active = !widget.active;
                 });
