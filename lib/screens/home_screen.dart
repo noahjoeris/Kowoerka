@@ -50,7 +50,17 @@ class HomeScreen extends StatelessWidget {
                                           .getLoggedInUser()))));
                 }),
             BigHomeCard(
-                imageName: "agent.jpg", title: "Be the Agent", onClick: () {}),
+                imageName: "agent.jpg",
+                title: "Be the Agent",
+                onClick: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LocationSelectorScreen(
+                              locator<LocationRepository>().getLocationsByUser(
+                                  locator<UserRepository>().getLoggedInUser()),
+                              true)));
+                }),
           ],
         ),
       ),

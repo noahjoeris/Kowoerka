@@ -1,4 +1,5 @@
 import 'package:kowoerka/model/location.dart';
+import 'package:kowoerka/model/user.dart';
 import 'package:kowoerka/model/workspace.dart';
 
 class LocationRepository {
@@ -14,5 +15,11 @@ class LocationRepository {
         .firstWhere((element) => element.workspaces.contains(workspace));
 
     return "${l.city} ${l.street} ${l.houseNumber}";
+  }
+
+  List<Location> getLocationsByUser(User user) {
+    return _locations
+        .where((element) => element.realEstateAgent.id == user.id)
+        .toList();
   }
 }
