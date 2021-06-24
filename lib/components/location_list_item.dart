@@ -4,6 +4,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:kowoerka/components/favourite_button.dart';
 import 'package:kowoerka/model/location.dart';
 import 'package:kowoerka/model/user_repository.dart';
+import 'package:kowoerka/screens/location_creator.dart';
 import 'package:kowoerka/screens/workspace_selector_screen.dart';
 import 'package:kowoerka/services/locator.dart';
 
@@ -71,7 +72,13 @@ class FlipCardFront extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: agentViewActive
                       ? IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        LocationCreator(location)));
+                          },
                           splashColor: Colors.blue.shade100,
                           icon: Icon(
                             Icons.edit,

@@ -3,6 +3,7 @@ import 'package:kowoerka/components/location_list_item.dart';
 import 'package:kowoerka/model/location.dart';
 import 'package:kowoerka/model/location_repository.dart';
 import 'package:kowoerka/model/user_repository.dart';
+import 'package:kowoerka/screens/location_creator.dart';
 import 'package:kowoerka/services/locator.dart';
 
 class LocationSelectorScreen extends StatefulWidget {
@@ -87,15 +88,20 @@ class _LocationSelectorScreenState extends State<LocationSelectorScreen> {
             )),
           ],
         ),
-        widget._agentViewActive
-            ? Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: FloatingActionButton(
-                      child: Icon(Icons.add), onPressed: () {}),
-                ))
-            : Container(),
+        if (widget._agentViewActive)
+          Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: FloatingActionButton(
+                    child: Icon(Icons.add),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LocationCreator()));
+                    }),
+              )),
       ]),
     );
   }

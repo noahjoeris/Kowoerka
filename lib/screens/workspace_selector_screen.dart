@@ -107,15 +107,14 @@ class _WorkspaceSelectorScreenState extends State<WorkspaceSelectorScreen> {
             )),
           ],
         ),
-        widget._agentViewActive
-            ? Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: FloatingActionButton(
-                      child: Icon(Icons.add), onPressed: () {}),
-                ))
-            : Container(),
+        if (widget._agentViewActive)
+          Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: FloatingActionButton(
+                    child: Icon(Icons.add), onPressed: () {}),
+              )),
       ]),
     );
   }

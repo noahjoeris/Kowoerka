@@ -10,8 +10,8 @@ class Location {
   User realEstateAgent;
   String description;
   List<String> features;
-
   int imageNumber;
+
   List<Workspace> workspaces;
 
   Location(
